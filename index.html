@@ -1,4 +1,4 @@
-daily water comsuption<!DOCTYPE html>
+Daily Water Comsuption<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -132,6 +132,7 @@ daily water comsuption<!DOCTYPE html>
     </div>
 
     <div class="cup-selection">
+        <button class="action-btn btn-primary" onclick="addWater(25)">+25ml</button>
         <button class="action-btn btn-primary" onclick="addWater(50)">+50ml</button>
         <button class="action-btn btn-primary" onclick="addWater(100)">+100ml</button>
         <button class="action-btn btn-primary" onclick="addWater(250)">+250ml</button>
@@ -148,7 +149,7 @@ daily water comsuption<!DOCTYPE html>
 </div>
 
 <script>
-    const DAILY_GOAL = 2000;
+    const DAILY_GOAL = 2500;
     
     function getTodayString() {
         return new Date().toDateString();
