@@ -1,10 +1,16 @@
-Daily Water Comsuption<!DOCTYPE html>
+Water Intake<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Water Intake Tracker</title>
+    
+    <!-- 
+      EXPLANATION: CSS STYLING SECTION 
+      This area controls the design, layout, colors, and themes of your app.
+    -->
     <style>
+        /* Light Mode Colors (Default) */
         :root {
             --bg-color: #f4f7f6;
             --card-color: #ffffff;
@@ -13,6 +19,8 @@ Daily Water Comsuption<!DOCTYPE html>
             --primary: #3498db;
             --border: #eef2f3;
         }
+        
+        /* Dark Mode Colors (Activated via JavaScript) */
         [data-theme="dark"] {
             --bg-color: #1a1a1a;
             --card-color: #2d2d2d;
@@ -21,6 +29,8 @@ Daily Water Comsuption<!DOCTYPE html>
             --primary: #2980b9;
             --border: #3d3d3d;
         }
+        
+        /* Main Body: Centers the entire card on the user's screen */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             background-color: var(--bg-color);
@@ -33,6 +43,8 @@ Daily Water Comsuption<!DOCTYPE html>
             min-height: 100vh;
             transition: background 0.3s ease;
         }
+        
+        /* Alignment wrapper for the top utility buttons */
         .header-controls {
             width: 100%;
             max-width: 380px;
@@ -40,6 +52,8 @@ Daily Water Comsuption<!DOCTYPE html>
             justify-content: flex-end;
             margin-bottom: 10px;
         }
+        
+        /* Theme Toggle Button Style */
         .theme-btn {
             background: none;
             border: 2px solid var(--border);
@@ -49,6 +63,8 @@ Daily Water Comsuption<!DOCTYPE html>
             cursor: pointer;
             font-size: 0.85rem;
         }
+        
+        /* Main Application Container Card */
         .tracker-card {
             background: var(--card-color);
             padding: 30px;
@@ -59,8 +75,11 @@ Daily Water Comsuption<!DOCTYPE html>
             max-width: 380px;
             box-sizing: border-box;
         }
+        
         h1 { margin: 0 0 5px 0; font-size: 1.8rem; }
         .date-display { color: var(--text-sub); font-size: 0.9rem; margin-bottom: 25px; }
+        
+        /* Progress Indicator Circle */
         .progress-circle {
             width: 160px;
             height: 160px;
@@ -74,14 +93,19 @@ Daily Water Comsuption<!DOCTYPE html>
             border: 8px solid var(--border);
             transition: border-color 0.4s ease;
         }
+        
         .amount { font-size: 2.2rem; font-weight: bold; color: var(--primary); }
         .goal { font-size: 0.85rem; color: var(--text-sub); margin-top: 4px; }
+        
+        /* Grid Layout: Displays cup options side-by-side in 2 clean columns */
         .cup-selection {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             margin-bottom: 15px;
         }
+        
+        /* Standard configuration for all interaction buttons */
         button.action-btn {
             padding: 12px 8px;
             font-size: 0.9rem;
@@ -93,8 +117,11 @@ Daily Water Comsuption<!DOCTYPE html>
             color: var(--text-main);
             transition: transform 0.1s, background 0.2s;
         }
-        button.action-btn:active { transform: scale(0.95); }
+        button.action-btn:active { transform: scale(0.95); } /* Subtle shrink animation when tapped */
         button.btn-primary { background-color: var(--primary); color: white; }
+        button.btn-danger { background-color: #e74c3c; color: white; }
+        
+        /* Full-width Reset Button outline style */
         .btn-reset {
             width: 100%;
             padding: 10px;
@@ -105,6 +132,7 @@ Daily Water Comsuption<!DOCTYPE html>
             cursor: pointer;
             font-size: 0.85rem;
         }
+        
         .footer-links {
             margin-top: 40px;
             font-size: 0.75rem;
@@ -113,24 +141,31 @@ Daily Water Comsuption<!DOCTYPE html>
             max-width: 380px;
             line-height: 1.4;
         }
-        .footer-links a { color: var(--primary); text-decoration: none; }
     </style>
 </head>
 <body>
 
+<!-- Theme Selector Row Area -->
 <div class="header-controls">
     <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">Dark Mode</button>
 </div>
 
+<!-- Main UI Display Wrapper -->
 <div class="tracker-card">
-    <h1>Water Tracker</h1>
+    <h1>Daily Water Consumption</h1>
     <div class="date-display" id="dateDisplay">Today</div>
     
+    <!-- Central Counter Graphic -->
     <div class="progress-circle" id="progressCircle">
         <div class="amount" id="currentAmount">0 ml</div>
         <div class="goal">Target: 2500 ml</div>
     </div>
 
+    <!-- 
+      EXPLANATION: HTML CUP SELECTION SECTION
+      Each button triggers a custom JavaScript calculation rule when clicked, 
+      passing an exact volume number to be calculated.
+    -->
     <div class="cup-selection">
         <button class="action-btn btn-primary" onclick="addWater(25)">+25ml</button>
         <button class="action-btn btn-primary" onclick="addWater(50)">+50ml</button>
@@ -138,35 +173,48 @@ Daily Water Comsuption<!DOCTYPE html>
         <button class="action-btn btn-primary" onclick="addWater(250)">+250ml</button>
         <button class="action-btn btn-primary" onclick="addWater(500)">+500ml</button>
         <button class="action-btn btn-primary" onclick="addWater(750)">+750ml</button>
-        <button class="action-btn btn-danger" onclick="removeWater(500)">&#8722; 500ml</button>        
+        
+        <!-- Red Subtraction Button: span 2 forces it to stretch cleanly across both columns -->
+        <button class="action-btn btn-danger" style="grid-column: span 2;" onclick="removeWater(500)">− 500ml</button>        
     </div>
     
+    <!-- Global Clear Action -->
     <button class="btn-reset" onclick="resetWater()">Clear Today's Intake</button>
 </div>
 
+<!-- Public Disclosure Context -->
 <div class="footer-links">
-    <p><strong>Privacy Policy:</strong> This application runs entirely in your web browser. We do not collect, store, or track any personal info or health statistics. All interaction records stay isolated on your physical machine via local container caching.</p>
-    <p>Powered by Open-Source Web Infrastructure</p>
+    <p><strong>Privacy Policy:</strong> This application runs entirely in your web browser. We do not collect, store, or track any personal info or health statistics.</p>
 </div>
 
+
+<!-- 
+  EXPLANATION: JAVASCRIPT ENGINE SECTION 
+  This contains the mathematical logic, storage mechanisms, and interface updates.
+-->
 <script>
+    // Global Constants configuration
     const DAILY_GOAL = 2500;
     
+    // Returns today's formatted calendar date string
     function getTodayString() {
         return new Date().toDateString();
     }
 
+    // Displays the current date dynamically at runtime
     document.getElementById('dateDisplay').innerText = getTodayString();
 
-    // Data Engine Logic
+    // Data Verification Engine: Fetches existing data records from browser storage or starts a clean profile
     let trackerData = JSON.parse(localStorage.getItem('waterTrackerConfig')) || { date: getTodayString(), intake: 0 };
     let activeTheme = localStorage.getItem('appThemeColor') || 'light';
 
+    // Automatic Midnight Reset Engine: If calendar date shifts, flush previous record logs automatically
     if (trackerData.date !== getTodayString()) {
         trackerData = { date: getTodayString(), intake: 0 };
         saveAppState();
     }
 
+    // Theme Management Engine: Swaps out background property variables
     function applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
         document.getElementById('themeBtn').innerText = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
@@ -178,22 +226,39 @@ Daily Water Comsuption<!DOCTYPE html>
         applyTheme(activeTheme === 'light' ? 'dark' : 'light');
     }
 
+    // Visual Interface Engine: Syncs current numbers with HTML displays and changes border color when target is hit
     function renderUIUpdates() {
         document.getElementById('currentAmount').innerText = `${trackerData.intake} ml`;
         const containerCircle = document.getElementById('progressCircle');
+        
         if (trackerData.intake >= DAILY_GOAL) {
-            containerCircle.style.borderColor = '#2ecc71';
+            containerCircle.style.borderColor = '#2ecc71'; // Turns Green when target achieved
         } else {
-            containerCircle.style.borderColor = 'var(--border)';
+            containerCircle.style.borderColor = 'var(--border)'; // Stays standard color when beneath goal
         }
     }
 
+    // Addition Calculation Engine
     function addWater(volume) {
-        trackerData.intake += volume;
+        trackerData.intake += volume; // Adds the cup volume to current intake total
+        saveAppState();               // Saves updated total to browser memory
+        renderUIUpdates();            // Updates numbers on screen
+    }
+
+    // Subtraction Calculation Engine
+    function removeWater(volume) {
+        trackerData.intake -= volume; // Subtracts the cup volume from total intake
+        
+        // Safety lock rule: Keeps app from showing weird negative values below 0
+        if (trackerData.intake < 0) {
+            trackerData.intake = 0; 
+        }
+        
         saveAppState();
         renderUIUpdates();
     }
 
+    // Reset Engine: Erases today's data after confirmation dialog acceptance
     function resetWater() {
         if(confirm("Reset today's dynamic liquid tracking log?")) {
             trackerData.intake = 0;
@@ -202,14 +267,11 @@ Daily Water Comsuption<!DOCTYPE html>
         }
     }
 
+    // Local Storage Router: Backs up data into user's browser sandbox cache
     function saveAppState() {
         localStorage.setItem('waterTrackerConfig', JSON.stringify(trackerData));
     }
 
-    // Initialize System Engine
+    // Initial Engine Startup Commands
     applyTheme(activeTheme);
     renderUIUpdates();
-</script>
-
-</body>
-</html>
