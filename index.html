@@ -126,9 +126,18 @@ WATER INTAKE<!DOCTYPE html>
     <h1>Daily Water Consumption</h1>
     <div class="date-display" id="dateDisplay">Today</div>
     
-    <div class="progress-circle" id="progressCircle">
-        <div class="amount" id="currentAmount">0 ml</div>
-        <div class="goal">Target: 2500 ml</div>
+ <div class="progress-container">
+        <svg class="progress-svg" width="170" height="170">
+            <!-- Background Empty Ring -->
+            <circle cx="85" cy="85" r="75" stroke="var(--border)" stroke-width="10" fill="transparent" />
+            <!-- Animated Green Active Water Ring -->
+            <circle id="movingRing" cx="85" cy="85" r="75" stroke="#2ecc71" stroke-width="10" fill="transparent" 
+                    stroke-dasharray="471.2" stroke-dashoffset="471.2" stroke-linecap="round" style="transition: stroke-dashoffset 0.3s ease, stroke 0.3s ease;" />
+        </svg>
+        <div class="progress-text-box">
+            <div class="amount" id="currentAmount">0 ml</div>
+            <div class="goal">Target: 2500 ml</div>
+        </div>
     </div>
 
     <div class="cup-selection">
